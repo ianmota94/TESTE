@@ -1,60 +1,61 @@
 // ====================================
-// 1. MODO ESCURO (DARK MODE)
+// 1. MODO ESCURO (DARK MODE) e ÍCONE SLIDER
 // ====================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // 1.1. Seleciona o botão de alternância de tema
+    // Seleciona o elemento do interruptor (toggle)
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     
-    // Chave para armazenar a preferência no navegador
     const STORAGE_KEY = 'themePreference';
 
-    // 1.2. Função para aplicar o tema
+    // 1.1. Função para aplicar o tema e atualizar o ícone
     function applyTheme(isDark) {
         if (isDark) {
             body.classList.add('dark-mode');
-            themeToggle.textContent = 'Modo Claro'; // Altera o texto do botão
+            themeToggle.classList.add('active'); // Ativa o visual do slider
         } else {
             body.classList.remove('dark-mode');
-            themeToggle.textContent = 'Modo Escuro'; // Altera o texto do botão
+            themeToggle.classList.remove('active'); // Desativa o visual do slider
         }
     }
 
-    // 1.3. Verifica a preferência salva ao carregar a página
+    // 1.2. Verifica a preferência salva ao carregar a página
     const savedPreference = localStorage.getItem(STORAGE_KEY);
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
+    let initialThemeIsDark = false;
+    
     if (savedPreference) {
-        // Se houver uma preferência salva, aplica-a
-        applyTheme(savedPreference === 'dark');
-    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        // Se não houver preferência salva, verifica a preferência do sistema operacional
-        applyTheme(true); 
-    } else {
-        // Padrão: Modo Claro
-        applyTheme(false);
+        // Se houver preferência salva, usa ela
+        initialThemeIsDark = savedPreference === 'dark';
+    } else if (prefersDark) {
+        // Se não houver, usa a preferência do sistema operacional
+        initialThemeIsDark = true; 
     }
     
-    // 1.4. Adiciona o listener para o clique no botão
-    themeToggle.addEventListener('click', () => {
-        const isCurrentlyDark = body.classList.contains('dark-mode');
-        
-        // Alterna o tema
-        applyTheme(!isCurrentlyDark);
-        
-        // Salva a nova preferência no armazenamento local
-        const newPreference = !isCurrentlyDark ? 'dark' : 'light';
-        localStorage.setItem(STORAGE_KEY, newPreference);
-    });
+    applyTheme(initialThemeIsDark);
+    
+    // 1.3. Adiciona o listener para o clique no interruptor
+    if (themeToggle) {
+        themeToggle.addEventListener('click', () => {
+            const isCurrentlyDark = body.classList.contains('dark-mode');
+            
+            // Alterna o tema
+            applyTheme(!isCurrentlyDark);
+            
+            // Salva a nova preferência
+            const newPreference = !isCurrentlyDark ? 'dark' : 'light';
+            localStorage.setItem(STORAGE_KEY, newPreference);
+        });
+    }
 });
 
 // ====================================
-// 2. EFEITO VISUAL: HOVER MAIS SUAVE
+// 2. EFEITO VISUAL: HOVER MAIS SUAVE (Reimplementado apenas com CSS)
+//    O JS abaixo foi simplificado para apenas adicionar o efeito de hover
+//    nos itens de vantagem, agora usando o CSS.
 // ====================================
-
-// Adicionar um efeito de sombra suave ao passar o mouse nos cartões de vantagem.
-// OBS: Embora este efeito possa ser feito puramente com CSS, vamos usar JS para
-// selecionar os elementos e demonstrar a manipulação do DOM.
 
 document.addEventListener('DOMContentLoaded', () => {
     const vantagemItems = document.querySelectorAll('.vantagem-item');
@@ -62,36 +63,38 @@ document.addEventListener('DOMContentLoaded', () => {
     vantagemItems.forEach(item => {
         // Adiciona um evento quando o mouse entra no elemento
         item.addEventListener('mouseenter', () => {
-            // Usa o JS para mudar o estilo (aumenta levemente a sombra)
-            item.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.2)'; 
+            // Apenas adiciona uma classe, a transição é feita no CSS
             item.style.transform = 'translateY(-3px)'; // Move ligeiramente para cima
-            item.style.transition = 'all 0.3s ease'; // Adiciona transição
         });
 
         // Adiciona um evento quando o mouse sai do elemento
         item.addEventListener('mouseleave', () => {
-            // Retorna o estilo ao normal
-            // Verifica se o modo escuro está ativo para manter a sombra correta
-            const shadow = document.body.classList.contains('dark-mode') ? 
-                '0 2px 10px rgba(0, 0, 0, 0.5)' : 
-                '0 2px 5px rgba(0, 0, 0, 0.1)';
-
-            item.style.boxShadow = shadow;
-            item.style.transform = 'translateY(0)';
+            item.style.transform = 'translateY(0)'; // Volta ao normal
         });
     });
 });
 
 
 // ====================================
-// 3. SUGESTÃO: DESTAQUE NO BOTÃO PRINCIPAL
+// 3. MENU HAMBURGUER
 // ====================================
 
-// O botão principal ("Quero Validar Minhas Metas") vai ter um leve pulso
-// para chamar mais atenção, usando uma classe de animação.
-
 document.addEventListener('DOMContentLoaded', () => {
-    const mainButton = document.querySelector('.hero .primary-btn');
-    // Adiciona uma classe CSS que irá aplicar a animação (ver CSS)
-    mainButton.classList.add('pulse-animation');
+    const menuToggle = document.getElementById('menu-toggle');
+    const navList = document.getElementById('nav-list');
+    
+    if (menuToggle && navList) {
+        menuToggle.addEventListener('click', () => {
+            // Alterna a classe 'active' no menu para exibir/ocultar
+            navList.classList.toggle('active');
+        });
+        
+        // Fechar o menu quando um link interno é clicado (útil em mobile)
+        navList.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                // Fechar após o clique
+                navList.classList.remove('active');
+            });
+        });
+    }
 });

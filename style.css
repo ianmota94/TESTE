@@ -8,9 +8,11 @@
     --light-text: #ffffff;
     --dark-text: #333333;
     --light-bg: #f4f4f4;
-    --dark-bg: #000c6d; /* Um tom de azul mais escuro que a primária para o fundo */
-    --card-bg: #ffffff; /* Fundo de cartões/itens claros */
+    --dark-bg: #000c6d; 
+    --card-bg: #ffffff; 
     --font-family: 'Montserrat', sans-serif;
+    
+    --menu-bg: var(--primary-color);
 }
 
 /* Base e Tipografia */
@@ -26,7 +28,8 @@ body,
 .hero, 
 .btn, 
 .step,
-.vantagem-item {
+.vantagem-item,
+.nav-menu {
     transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.3s ease;
 }
 
@@ -82,7 +85,7 @@ p {
     color: var(--light-text);
     text-align: center;
     padding: 100px 0;
-    position: relative; /* Para posicionar o botão de toggle */
+    position: relative;
 }
 
 .hero h1 {
@@ -106,7 +109,7 @@ p {
     font-weight: 600;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    border: none; /* Garante que o botão de toggle não tenha borda padrão */
+    border: none;
     cursor: pointer;
 }
 
@@ -116,19 +119,7 @@ p {
 }
 
 .primary-btn:hover {
-    background-color: #1a8f3b; /* Tom mais escuro do verde */
-}
-
-/* Estilo específico para o botão de alternância de tema */
-.theme-toggle-btn {
-    position: absolute;
-    top: 20px;
-    right: 50px; /* Alinha à direita, mas dentro do container */
-    font-size: 0.9em;
-    padding: 8px 15px;
-}
-.hero .container {
-    position: relative; /* Para o botão ser posicionado em relação ao container */
+    background-color: #1a8f3b;
 }
 
 
@@ -163,10 +154,9 @@ p {
 
 .vantagem-item {
     padding: 20px;
-    background: var(--card-bg); /* Usa a variável de fundo de cartão */
+    background: var(--card-bg);
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    /* Transições adicionadas no início do CSS */
 }
 
 /* Rodapé */
@@ -184,20 +174,20 @@ footer {
 /* ==================================== */
 
 body.dark-mode {
-    /* Sobrescreve as variáveis globais para tons escuros */
-    --primary-color: #5d68d1; /* Azul um pouco mais claro para contraste */
-    --secondary-color: #49c470; /* Verde um pouco mais claro para contraste */
-    --light-text: #1a1a1a; /* Texto que era branco vira preto/cinza escuro */
-    --dark-text: #f0f0f0; /* Texto que era preto vira branco/cinza claro */
-    --light-bg: #121212; /* Fundo principal claro vira preto escuro */
-    --dark-bg: #1e1e1e; /* Fundo escuro vira cinza muito escuro */
-    --card-bg: #2d2d2d; /* Fundo de cartões/itens escuros */
+    --primary-color: #5d68d1; 
+    --secondary-color: #49c470; 
+    --light-text: #f0f0f0; 
+    --dark-text: #1a1a1a; 
+    --light-bg: #121212; 
+    --dark-bg: #1e1e1e;
+    --card-bg: #2d2d2d;
+    --menu-bg: #1a1a1a;
 }
 
 /* Aplica os novos fundos e textos ao ativar a classe 'dark-mode' */
 body.dark-mode {
-    background-color: var(--light-bg); /* Fundo do BODY */
-    color: var(--dark-text); /* Cor do texto geral */
+    background-color: var(--light-bg);
+    color: var(--light-text);
 }
 
 body.dark-mode h1, 
@@ -207,22 +197,14 @@ body.dark-mode h4 {
     color: var(--primary-color);
 }
 
-/* Ajustes de cores das seções com base nas novas variáveis */
-body.dark-mode .hero {
-    background-color: var(--dark-bg);
-}
-
-body.dark-mode .hero h1, 
-body.dark-mode .hero h2 {
-    color: var(--primary-color);
+body.dark-mode .dark-bg {
+    background-color: var(--light-bg);
+    color: var(--light-text);
 }
 
 body.dark-mode .light-bg {
     background-color: var(--dark-bg);
-}
-
-body.dark-mode .dark-bg {
-    background-color: var(--light-bg); /* Inverte o background */
+    color: var(--light-text);
 }
 
 body.dark-mode .dark-bg h3, body.dark-mode .dark-bg h4 {
@@ -230,41 +212,129 @@ body.dark-mode .dark-bg h3, body.dark-mode .dark-bg h4 {
 }
 
 body.dark-mode .vantagem-item {
-    background: var(--card-bg); /* Fundo escuro do cartão */
+    background: var(--card-bg);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Rodapé no modo escuro */
-body.dark-mode footer {
+body.dark-mode footer,
+body.dark-mode .hero {
     background: var(--dark-bg);
-    color: var(--dark-text);
+    color: var(--light-text);
 }
 
 /* ==================================== */
-/* 6. ANIMAÇÕES (Suporte ao JavaScript) */
+/* 6. ANIMAÇÕES (PULSE REMOVIDA) */
+/* ==================================== */
+/* O código de Keyframes e a classe .pulse-animation foram removidos */
+
+
+/* ==================================== */
+/* 7. MENU HAMBURGUER E NAV BAR */
+/* ==================================== */
+.navbar {
+    width: 100%;
+    background-color: var(--primary-color);
+    padding: 10px 0;
+    position: fixed; /* Fixa no topo em todas as telas */
+    top: 0;
+    left: 0;
+    z-index: 50;
+    text-align: left;
+}
+
+.nav-list {
+    display: flex; /* Menu em linha no desktop */
+    list-style: none;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    align-items: center; /* Alinha o toggle com os links */
+}
+
+.nav-list a {
+    color: var(--light-text);
+    text-decoration: none;
+    padding: 10px 15px;
+    font-weight: 600;
+    display: block;
+}
+
+.nav-list a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.nav-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Oculta o botão de hamburguer em telas grandes */
+.menu-toggle {
+    display: none; 
+}
+
+/* Corrige o header para não ser escondido pela navbar fixa */
+.hero {
+    padding-top: 150px; 
+}
+
+
+/* ==================================== */
+/* 8. NOVO ÍCONE DE INTERRUPTOR (TOGGLE SWITCH) */
 /* ==================================== */
 
-/* Keyframes para o efeito de pulso (para o botão principal) */
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        box-shadow: 0 0 0 0 rgba(34, 177, 76, 0.7); /* Cor do Verde */
-    }
-    70% {
-        transform: scale(1.05);
-        box-shadow: 0 0 0 10px rgba(34, 177, 76, 0);
-    }
-    100% {
-        transform: scale(1);
-    }
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 25px;
+    cursor: pointer;
+    margin-right: 15px; /* Espaço entre o ícone e o hamburguer no mobile */
 }
 
-/* Classe aplicada pelo JS ao botão principal */
-.pulse-animation {
-    animation: pulse 2s infinite;
+/* Fundo do interruptor */
+.toggle-switch .slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--dark-text); /* Fundo escuro no modo claro */
+    transition: 0.4s;
 }
 
-/* Responsividade Básica */
+.toggle-switch .slider:before {
+    position: absolute;
+    content: "";
+    height: 19px;
+    width: 19px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white; /* Bola branca no modo claro */
+    transition: 0.4s;
+}
+
+/* Quando a classe 'active' é adicionada (Modo Escuro) */
+.toggle-switch.active .slider {
+    background-color: var(--secondary-color); /* Fundo verde quando ativo */
+}
+
+.toggle-switch.active .slider:before {
+    transform: translateX(25px); /* Move a bola para a direita */
+}
+
+/* Bordas arredondadas */
+.slider.round {
+    border-radius: 25px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+/* Responsividade e Menu Hamburguer */
 @media (max-width: 768px) {
     .step-container {
         flex-direction: column;
@@ -274,7 +344,62 @@ body.dark-mode footer {
         font-size: 2.5em;
     }
     
-    /* Reposiciona o botão de tema em telas pequenas */
-    .theme-toggle-btn {
-        position: static; 
-        margin-bottom: 2
+    .nav-controls {
+        order: 3; /* Move o controle para o fim da linha de flex */
+    }
+
+    /* Oculta o menu principal em telas pequenas */
+    .nav-list {
+        /* display: none; */
+        flex-direction: column;
+        background-color: var(--menu-bg);
+        width: 100%;
+        position: absolute;
+        top: 100%; /* Abaixo da navbar fixa */
+        left: 0;
+        text-align: center;
+        padding-bottom: 10px;
+        max-height: 0; /* Oculta suavemente */
+        overflow: hidden;
+        transition: max-height 0.4s ease-in-out;
+    }
+    
+    /* Mostra o menu quando a classe 'active' é adicionada pelo JS */
+    .nav-list.active {
+        display: flex;
+        max-height: 300px; /* Um valor grande para mostrar todo o conteúdo */
+    }
+
+    /* Mostra o ícone de hamburguer */
+    .menu-toggle {
+        display: block;
+        cursor: pointer;
+        font-size: 30px;
+        color: var(--light-text);
+        padding: 0 15px;
+        z-index: 101;
+    }
+    
+    /* Ajusta o padding da navbar no mobile */
+    .navbar {
+        padding: 10px 15px;
+        height: 60px; /* Altura para o conteúdo */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar .container {
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    /* Reposiciona o botão de tema em telas pequenas (dentro dos controles) */
+    .toggle-switch {
+        margin: 0;
+    }
+}
