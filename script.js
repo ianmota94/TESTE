@@ -3,7 +3,6 @@
 // ====================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Seleciona o elemento do interruptor (toggle)
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
     
@@ -34,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         initialThemeIsDark = true; 
     }
     
+    // Aplica o tema inicial
     applyTheme(initialThemeIsDark);
     
     // 1.3. Adiciona o listener para o clique no interruptor
@@ -52,22 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ====================================
-// 2. EFEITO VISUAL: HOVER MAIS SUAVE (Reimplementado apenas com CSS)
-//    O JS abaixo foi simplificado para apenas adicionar o efeito de hover
-//    nos itens de vantagem, agora usando o CSS.
+// 2. EFEITO VISUAL: HOVER MAIS SUAVE (Manipulação de Transform para os cartões)
 // ====================================
 
 document.addEventListener('DOMContentLoaded', () => {
     const vantagemItems = document.querySelectorAll('.vantagem-item');
 
     vantagemItems.forEach(item => {
-        // Adiciona um evento quando o mouse entra no elemento
+        // Quando o mouse entra
         item.addEventListener('mouseenter', () => {
-            // Apenas adiciona uma classe, a transição é feita no CSS
             item.style.transform = 'translateY(-3px)'; // Move ligeiramente para cima
         });
 
-        // Adiciona um evento quando o mouse sai do elemento
+        // Quando o mouse sai
         item.addEventListener('mouseleave', () => {
             item.style.transform = 'translateY(0)'; // Volta ao normal
         });
