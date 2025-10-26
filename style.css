@@ -5,11 +5,11 @@
 :root {
     --primary-color: #001191; /* Azul Marinho (RGB 0, 17, 145) */
     --secondary-color: #22B14C; /* Verde Vibrante (RGB 34, 177, 76) */
-    --light-text: #ffffff; /* Texto Claro (Branco) */
-    --dark-text: #333333;  /* Texto Escuro */
-    --light-bg: #f4f4f4;   /* Fundo Claro */
-    --dark-bg: #000c6d;    /* Fundo Escuro para Seções (Azul Escuro) */
-    --card-bg: #ffffff;    /* Fundo de cartões/itens claros */
+    --light-text: #ffffff;  /* Texto Claro (Branco) */
+    --dark-text: #333333;   /* Texto Escuro */
+    --light-bg: #f4f4f4;    /* Fundo Claro */
+    --dark-bg: #000c6d;     /* Fundo Escuro para Seções (Azul Escuro) */
+    --card-bg: #ffffff;     /* Fundo de cartões/itens claros */
     --font-family: 'Montserrat', sans-serif;
     
     --menu-bg: var(--primary-color);
@@ -109,7 +109,7 @@ p {
     text-decoration: none;
     font-weight: 600;
     border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.3s ease; /* Transição para hover */
+    transition: background-color 0.3s ease, transform 0.3s ease; 
     border: none;
     cursor: pointer;
 }
@@ -121,7 +121,7 @@ p {
 
 .primary-btn:hover {
     background-color: #1a8f3b;
-    transform: translateY(-2px); /* Efeito suave no hover */
+    transform: translateY(-2px);
 }
 
 
@@ -178,10 +178,10 @@ footer {
 body.dark-mode {
     --primary-color: #5d68d1; 
     --secondary-color: #49c470; 
-    --light-text: #f0f0f0; /* CORRIGIDO: Texto Claro */
-    --dark-text: #1a1a1a;  /* Texto Escuro */
-    --light-bg: #121212;   /* Fundo Principal Escuro */
-    --dark-bg: #1e1e1e;    /* Fundo de Seção Escuro */
+    --light-text: #f0f0f0; 
+    --dark-text: #1a1a1a;  
+    --light-bg: #121212;   
+    --dark-bg: #1e1e1e;    
     --card-bg: #2d2d2d;
     --menu-bg: #1a1a1a;
 }
@@ -235,15 +235,36 @@ body.dark-mode .hero {
     left: 0;
     z-index: 50;
     text-align: left;
+    height: 60px; /* Altura fixa para o alinhamento */
 }
 
 .nav-list {
-    display: flex;
     list-style: none;
-    justify-content: flex-end;
     margin: 0;
     padding: 0;
-    align-items: center;
+}
+
+/* Configuração padrão do menu (oculto e pronto para ser dropdown/mobile menu) */
+.nav-list {
+    flex-direction: column;
+    background-color: var(--menu-bg);
+    position: absolute;
+    top: 60px; /* Abaixo da navbar */
+    right: 0;
+    left: 0; /* Padrão mobile: full width */
+    text-align: center;
+    max-height: 0; /* Oculto */
+    overflow: hidden;
+    transition: max-height 0.4s ease-in-out;
+    z-index: 49; 
+    width: 100%;
+}
+
+/* Estado Ativo (Visível) */
+.nav-list.active {
+    display: flex;
+    max-height: 300px; 
+    padding-bottom: 10px;
 }
 
 .nav-list a {
@@ -262,14 +283,19 @@ body.dark-mode .hero {
     display: flex;
     align-items: center;
     gap: 15px;
+    z-index: 101; /* Garante que os controles fiquem acima do menu que se abre */
 }
 
 .menu-toggle {
-    display: none; 
+    display: block; /* AGORA VISÍVEL EM TODAS AS TELAS */
+    cursor: pointer;
+    font-size: 30px;
+    color: var(--light-text);
+    padding: 0 15px;
 }
 
 /* ==================================== */
-/* 8. NOVO ÍCONE DE INTERRUPTOR (TOGGLE SWITCH) */
+/* 8. ÍCONE DE INTERRUPTOR (TOGGLE SWITCH) */
 /* ==================================== */
 
 .toggle-switch {
@@ -319,8 +345,32 @@ body.dark-mode .hero {
 
 
 /* ==================================== */
-/* RESPONSIVIDADE (MOBILE) */
+/* RESPONSIVIDADE (Ajustes para Desktop > 768px) */
 /* ==================================== */
+@media (min-width: 769px) {
+    /* Menu como Dropdown no Desktop */
+    .nav-list {
+        position: absolute;
+        width: 250px; /* Largura de dropdown */
+        right: 0;
+        left: auto;
+        top: 60px; 
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+    }
+    
+    .nav-list a {
+        padding: 15px 20px;
+        text-align: left;
+    }
+
+    /* Alinhamento dos itens da Navbar no Desktop */
+    .navbar .container {
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+/* RESPONSIVIDADE (MOBILE <= 768px) */
 @media (max-width: 768px) {
     .step-container {
         flex-direction: column;
@@ -334,45 +384,7 @@ body.dark-mode .hero {
         order: 3;
     }
 
-    /* Menu Hamburguer */
-    .nav-list {
-        flex-direction: column;
-        background-color: var(--menu-bg);
-        width: 100%;
-        position: absolute;
-        top: 100%; 
-        left: 0;
-        text-align: center;
-        padding-bottom: 0;
-        max-height: 0; /* Oculta com transição */
-        overflow: hidden;
-        transition: max-height 0.4s ease-in-out;
-    }
-    
-    .nav-list.active {
-        display: flex;
-        max-height: 300px; /* Abre o menu */
-        padding-bottom: 10px;
-    }
-
-    .menu-toggle {
-        display: block;
-        cursor: pointer;
-        font-size: 30px;
-        color: var(--light-text);
-        padding: 0 15px;
-        z-index: 101;
-    }
-    
-    /* Ajustes da Navbar */
-    .navbar {
-        padding: 10px 15px;
-        height: 60px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
+    /* Alinhamento dos itens da Navbar no Mobile */
     .navbar .container {
         width: 100%;
         padding: 0;

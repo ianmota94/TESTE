@@ -19,18 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 1.2. Verifica a preferência salva ao carregar a página
+    // 1.2. Define o tema inicial (FORÇANDO TEMA CLARO POR PADRÃO)
     const savedPreference = localStorage.getItem(STORAGE_KEY);
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
     let initialThemeIsDark = false;
     
     if (savedPreference) {
         // Se houver preferência salva, usa ela
         initialThemeIsDark = savedPreference === 'dark';
-    } else if (prefersDark) {
-        // Se não houver, usa a preferência do sistema operacional
-        initialThemeIsDark = true; 
+    } else {
+        // Se NENHUMA preferência for salva, força o Tema Claro (initialThemeIsDark permanece false).
+        // Ignoramos a preferência de cor do sistema operacional (prefers-color-scheme).
+        initialThemeIsDark = false; 
     }
     
     // Aplica o tema inicial
@@ -52,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ====================================
-// 2. EFEITO VISUAL: HOVER MAIS SUAVE (Manipulação de Transform para os cartões)
+// 2. EFEITO VISUAL: HOVER MAIS SUAVE (Cartões de Vantagem)
 // ====================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -73,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 // ====================================
-// 3. MENU HAMBURGUER
+// 3. MENU HAMBURGUER (Funciona em todas as telas)
 // ====================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -86,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             navList.classList.toggle('active');
         });
         
-        // Fechar o menu quando um link interno é clicado (útil em mobile)
+        // Fechar o menu quando um link interno é clicado (útil para navegação)
         navList.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 // Fechar após o clique
