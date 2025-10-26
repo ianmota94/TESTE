@@ -1,4 +1,7 @@
 /* Definições das Cores */
+/* ==================================== */
+/* 4. SETUP INICIAL DO DARK MODE (Default Light) */
+/* ==================================== */
 :root {
     --primary-color: #001191; /* Azul Marinho (RGB 0, 17, 145) */
     --secondary-color: #22B14C; /* Verde Vibrante (RGB 34, 177, 76) */
@@ -6,6 +9,7 @@
     --dark-text: #333333;
     --light-bg: #f4f4f4;
     --dark-bg: #000c6d; /* Um tom de azul mais escuro que a primária para o fundo */
+    --card-bg: #ffffff; /* Fundo de cartões/itens claros */
     --font-family: 'Montserrat', sans-serif;
 }
 
@@ -14,6 +18,16 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+/* Transição suave para Modo Escuro */
+body, 
+.section, 
+.hero, 
+.btn, 
+.step,
+.vantagem-item {
+    transition: background-color 0.5s ease, color 0.5s ease, box-shadow 0.3s ease;
 }
 
 body {
@@ -68,6 +82,7 @@ p {
     color: var(--light-text);
     text-align: center;
     padding: 100px 0;
+    position: relative; /* Para posicionar o botão de toggle */
 }
 
 .hero h1 {
@@ -91,6 +106,8 @@ p {
     font-weight: 600;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    border: none; /* Garante que o botão de toggle não tenha borda padrão */
+    cursor: pointer;
 }
 
 .primary-btn {
@@ -101,6 +118,19 @@ p {
 .primary-btn:hover {
     background-color: #1a8f3b; /* Tom mais escuro do verde */
 }
+
+/* Estilo específico para o botão de alternância de tema */
+.theme-toggle-btn {
+    position: absolute;
+    top: 20px;
+    right: 50px; /* Alinha à direita, mas dentro do container */
+    font-size: 0.9em;
+    padding: 8px 15px;
+}
+.hero .container {
+    position: relative; /* Para o botão ser posicionado em relação ao container */
+}
+
 
 /* 2. COMO FUNCIONA */
 .step-container {
@@ -133,9 +163,10 @@ p {
 
 .vantagem-item {
     padding: 20px;
-    background: #ffffff;
+    background: var(--card-bg); /* Usa a variável de fundo de cartão */
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Transições adicionadas no início do CSS */
 }
 
 /* Rodapé */
@@ -147,6 +178,92 @@ footer {
     font-size: 0.9em;
 }
 
+
+/* ==================================== */
+/* 5. DARK MODE (Tema Escuro) */
+/* ==================================== */
+
+body.dark-mode {
+    /* Sobrescreve as variáveis globais para tons escuros */
+    --primary-color: #5d68d1; /* Azul um pouco mais claro para contraste */
+    --secondary-color: #49c470; /* Verde um pouco mais claro para contraste */
+    --light-text: #1a1a1a; /* Texto que era branco vira preto/cinza escuro */
+    --dark-text: #f0f0f0; /* Texto que era preto vira branco/cinza claro */
+    --light-bg: #121212; /* Fundo principal claro vira preto escuro */
+    --dark-bg: #1e1e1e; /* Fundo escuro vira cinza muito escuro */
+    --card-bg: #2d2d2d; /* Fundo de cartões/itens escuros */
+}
+
+/* Aplica os novos fundos e textos ao ativar a classe 'dark-mode' */
+body.dark-mode {
+    background-color: var(--light-bg); /* Fundo do BODY */
+    color: var(--dark-text); /* Cor do texto geral */
+}
+
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4 {
+    color: var(--primary-color);
+}
+
+/* Ajustes de cores das seções com base nas novas variáveis */
+body.dark-mode .hero {
+    background-color: var(--dark-bg);
+}
+
+body.dark-mode .hero h1, 
+body.dark-mode .hero h2 {
+    color: var(--primary-color);
+}
+
+body.dark-mode .light-bg {
+    background-color: var(--dark-bg);
+}
+
+body.dark-mode .dark-bg {
+    background-color: var(--light-bg); /* Inverte o background */
+}
+
+body.dark-mode .dark-bg h3, body.dark-mode .dark-bg h4 {
+    color: var(--secondary-color);
+}
+
+body.dark-mode .vantagem-item {
+    background: var(--card-bg); /* Fundo escuro do cartão */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Rodapé no modo escuro */
+body.dark-mode footer {
+    background: var(--dark-bg);
+    color: var(--dark-text);
+}
+
+/* ==================================== */
+/* 6. ANIMAÇÕES (Suporte ao JavaScript) */
+/* ==================================== */
+
+/* Keyframes para o efeito de pulso (para o botão principal) */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(34, 177, 76, 0.7); /* Cor do Verde */
+    }
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(34, 177, 76, 0);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Classe aplicada pelo JS ao botão principal */
+.pulse-animation {
+    animation: pulse 2s infinite;
+}
+
 /* Responsividade Básica */
 @media (max-width: 768px) {
     .step-container {
@@ -156,4 +273,8 @@ footer {
     .hero h1 {
         font-size: 2.5em;
     }
-}
+    
+    /* Reposiciona o botão de tema em telas pequenas */
+    .theme-toggle-btn {
+        position: static; 
+        margin-bottom: 2
